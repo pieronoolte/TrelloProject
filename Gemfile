@@ -2,7 +2,9 @@ source "https://rubygems.org"
 
 ruby "3.3.0"
 
+
 gem "bootsnap", require: false
+gem "devise"
 gem "jbuilder"
 gem "importmap-rails"
 gem "pg", "~> 1.1"
