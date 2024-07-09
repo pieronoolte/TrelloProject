@@ -7,3 +7,18 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+user = User.find_or_create_by(email: "pieronolte@gmail.com") do |u|
+  u.password = "123456"
+end
+
+5.times do |i|
+  Board.create(user: user, name: "Board #{i+1}")
+end
+
+Board.find_each do |board|
+  5.times { |i| List.create(board: board, title: "list #(i+1)")}
+  board.reload.lists.each do |list|
+    5.times { |i| Item.create(list: list, title: "item #(i+1)")}
+  end
+end

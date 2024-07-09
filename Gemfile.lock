@@ -128,6 +128,8 @@ GEM
     jbuilder (2.12.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsonapi-serializer (2.2.0)
+      activesupport (>= 4.2)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -175,6 +177,8 @@ GEM
       stringio
     puma (6.4.2)
       nio4r (~> 2.0)
+    pundit (2.3.2)
+      activesupport (>= 3.0.0)
     racc (1.7.3)
     rack (3.0.11)
     rack-session (2.0.0)
@@ -250,6 +254,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    shoulda-matchers (5.3.0)
+      activesupport (>= 5.2.0)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -310,13 +316,16 @@ DEPENDENCIES
   faker!
   importmap-rails
   jbuilder
+  jsonapi-serializer
   pg (~> 1.1)
   pry-rails
   puma (>= 5.0)
+  pundit (~> 2.3)
   rails (~> 7.1.3, >= 7.1.3.3)
   redis (>= 4.0.1)
   rspec-rails (~> 5.1, >= 5.1.2)
   sassc-rails
+  shoulda-matchers (~> 5.0)
   sprockets-rails
   stimulus-rails
   tailwindcss-rails
