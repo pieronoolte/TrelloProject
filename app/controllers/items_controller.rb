@@ -1,0 +1,47 @@
+class ItemsController < ApplicationController
+  before_action :authenticate_user!
+
+  protect_from_forgery with: :null_session, only: :create
+  def new
+    @item = list.items.new
+  end
+
+  # def edit
+  #   @item = list.items.find(params[:id])
+  # end
+
+
+  def create
+    @item = list.items.new(item_params)
+
+    if @item.save
+      redirect_to board_path(list.board)
+    else
+      render :new
+    end
+  end
+
+  # def update
+  #   @item = board.items.find(params[:id])
+  #   if @item.update(item_params)
+  #     redirect_to board_path(board)
+  #   else
+  #     render :edit
+  #   end
+  # end
+
+  # def destroy 
+  #   @item = board.lists.find(params[:id])
+  #   @item.destroy
+  # end
+
+  private
+
+  def item_params
+    params.require(:item).permit(:title, :description)
+  end
+
+  def list 
+    @list ||= List.find(params[:list_id])
+  end
+end

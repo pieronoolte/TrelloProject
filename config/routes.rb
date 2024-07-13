@@ -12,11 +12,22 @@ Rails.application.routes.draw do
 
   get "dashboard", to: "dashboard#index"
 
-  resources :boards, only: [:new, :edit, :show, :create, :update, :destroy]
+  resources :boards do
+    resources :lists, except: :show
+  end
+
+
+  resources :lists do
+    resources :items
+  end
 
   namespace :api do
     resources :boards do 
-      resources :lists, only: :index, controller: "lists" 
+      resources :lists, only: :index, controller: "lists"
+      resources :list_positions, only: [:index, :update], controller: "list_positions"
     end
+    # resources :item_positions, only: :update, controller: "item_positions"
+    put "item_positions", to: "item_positions#update"
+    resources :items, only: :show
   end
 end

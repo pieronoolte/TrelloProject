@@ -1,9 +1,21 @@
-<div class="mx-auto max-w-7xl px-4 sm_px-6 lg:px-8" data-controller="board">
+<div class="mx-auto max-w-8xl px-4 sm_px-6 lg:px-8">
   <div class="mx-auto max-w-full">
     <p>Inside New Board</p>
-    <div id="board"></div>
+    <div 
+      data-controller="board" 
+      id="board"
+      data-api-url="<%= api_board_lists_path(@board) %>"
+      data-list-positions-api-url="<%= api_board_list_positions_path(@board) %>"
+      data-board-lists-url="<%= board_lists_path(@board) %>"
+      data-item-positions-url="<%= api_item_positions_path %>"
+      class="flex flex-wrap-reverse">
+      <%= render "shared/modal" %>       
+      </div>
   </div>
 </div>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
 <%# <script src="https://cdn.jsdelivr.net/npm/jkanban@1.2.0/dist/jkanban.min.js"></script> %>

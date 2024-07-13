@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "3.3.0"
 
-
+gem 'activerecord-import'
 gem "bootsnap", require: false
 gem "devise"
 gem "jbuilder"

@@ -1,7 +1,9 @@
 module Api 
   class ListsController < ApplicationController
+    protect_from_forgery with: :null_session
+
     def index 
-      @lists = board.lists
+      @lists = board.lists.order(position: :asc)
       render json: ListSerializer.new(@lists).serializable_hash.to_json 
     end
 
