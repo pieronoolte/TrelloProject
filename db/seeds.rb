@@ -12,6 +12,10 @@ user = User.find_or_create_by(email: "pieronolte@gmail.com") do |u|
   u.password = "123456"
 end
 
+10.times do |i|
+  User.create(email: "user#{i}@gmail.com", password: "123456", name: Faker::Name.name)
+end
+
 5.times do |i|
   Board.create(user: user, name: "Board #{i+1}")
 end

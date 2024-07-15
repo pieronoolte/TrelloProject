@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :boards do
     resources :lists, except: :show
+    resources :board_users, except: [:update]
   end
 
 
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
     resources :items
   end
 
+  
   namespace :api do
     resources :boards do 
       resources :lists, only: :index, controller: "lists"

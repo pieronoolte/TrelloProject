@@ -214,11 +214,11 @@ export default class extends Controller {
     })
   }
 
-  static targets = [ 'title', 'description']
-  
-  toggleModal (modalId) {
+  static targets = ['title', 'description']
+
+  toggleModal(modalId) {
     const modal = document.getElementById(modalId);
-    const opacity =  document.getElementById('modal-backdrop')
+    const opacity = document.getElementById('modal-backdrop')
     if (modal) {
       modal.classList.toggle('hidden');
       opacity.classList.toggle('hidden');
@@ -230,13 +230,51 @@ export default class extends Controller {
       element.addEventListener('click', () => {
         const modalId = element.getAttribute('data-modal-toggle');
         console.log(element)
+
         const title = element.getAttribute('data-modal-title');
         const description = element.getAttribute('data-modal-description');
 
-        
+
+
+
         this.titleTarget.textContent = title;
         this.descriptionTarget.textContent = description;
         this.toggleModal(modalId);
+
+        const editButton = document.getElementById('edit-button');
+        const editLink = document.getElementById('item-edit-link');
+        const deleteButton = document.getElementById('delete-button');
+
+        const itemId = element.getAttribute('data-eid');
+        const listId = element.getAttribute('data-list-id');
+        console.log(document.getElementById('item-edit-link').href)
+        editLink.href = `/lists/${listId}/items/${itemId}/edit`
+        
+        editButton.addEventListener('click', () => {
+          window.location.href = editLink.href;
+        });
+
+        deleteButton.addEventListener('click', (e) => {
+          e.preventDefault();
+
+          if (confirm('Are you sure you want to delete this board?')) {
+            // Hacer la solicitud DELETE al servidor
+            axios.delete(`/lists/${listId}/items/${itemId}`)
+              .then(response => {
+                console.log('item deleted:', response.data);
+                // Si la solicitud DELETE es exitosa, eliminar el item de la interfaz de usuario
+                const itemElement = document.querySelector(`[data-eid="${itemId}"]`);
+                if (itemElement) {
+                  itemElement.remove();
+                }
+              })
+              .catch(error => {
+                console.error('Error deleting item:', error);
+              });
+          }
+        });
+
+
       });
     });
 
@@ -265,6 +303,8 @@ export default class extends Controller {
 
 
           this.showModal()
+
+
           // Add click event listener only to elements with data-modal-toggle attribute
           // document.querySelectorAll('[data-modal-toggle]').forEach(element => {
           //   element.addEventListener('click', () => {
@@ -273,7 +313,7 @@ export default class extends Controller {
           //     const title = element.getAttribute('data-modal-title');
           //     const description = element.getAttribute('data-modal-description');
 
-              
+
           //     this.titleTarget.textContent = title;
           //     this.descriptionTarget.textContent = description;
           //     this.toggleModal(modalId);

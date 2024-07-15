@@ -9,3 +9,5 @@ WHERE pg_stat_activity.datname = 'trello_clone_development'
 
 
 ## bundle exec rails db:migrate db:test:prepare
+
+
