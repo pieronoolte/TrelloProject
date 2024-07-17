@@ -14,9 +14,12 @@ Rails.application.routes.draw do
 
   resources :boards do
     resources :lists, except: :show
-    resources :board_users, except: [:update]
+    resources :board_users
   end
 
+  resources :items do
+    resources :item_members
+  end
 
   resources :lists do
     resources :items

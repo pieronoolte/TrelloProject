@@ -159,6 +159,10 @@ export default class extends Controller {
     return Array.from(document.querySelectorAll('.kanban-board'));
   }
 
+  getItem() {
+    return Array.from(document.querySelectorAll('.kanban-item'));
+  }
+
   decoratedHeaderTitle() {
     this.getHeaderTitles().forEach(element => {
       element.classList.add('cursor-pointer');
@@ -225,7 +229,7 @@ export default class extends Controller {
     }
   };
 
-  showModal() {
+  showModal(item) {
     document.querySelectorAll('[data-modal-toggle]').forEach(element => {
       element.addEventListener('click', () => {
         const modalId = element.getAttribute('data-modal-toggle');
@@ -243,16 +247,48 @@ export default class extends Controller {
 
         const editButton = document.getElementById('edit-button');
         const editLink = document.getElementById('item-edit-link');
+        const assignLink = document.getElementById('item-assign-member-link');
         const deleteButton = document.getElementById('delete-button');
 
         const itemId = element.getAttribute('data-eid');
         const listId = element.getAttribute('data-list-id');
         console.log(document.getElementById('item-edit-link').href)
         editLink.href = `/lists/${listId}/items/${itemId}/edit`
+        assignLink.href = `/items/${itemId}/item_members`
         
         editButton.addEventListener('click', () => {
           window.location.href = editLink.href;
         });
+
+
+
+        const itemUrl = `${window.location.origin}/api/items/${itemId}`;
+        axios.get(itemUrl)
+        .then(response => {
+          const members = JSON.parse(response['data']['data']['attributes']['members']).data
+          // console.log('item deleted:', members);
+          const modalMemberDiv = document.getElementById('modal-member');
+          modalMemberDiv.innerHTML = '';
+
+          members.forEach(member => {
+            const memberEmail = member.attributes.email; // Suponiendo que `attributes.email` contiene el email
+            const memberDiv = document.createElement('div');
+            memberDiv.className = 'inline-flex max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400 m-2';
+      
+            memberDiv.innerHTML = `
+              <div class="inline-flex">
+                <div class="flex-shrink-0 bg-gray-800 rounded-full">
+                  <img class="w-8 h-8 rounded-full" src="" alt="">
+                </div>
+                <div class="ms-3 text-sm font-normal">
+                  <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">${memberEmail}</span>
+                </div>
+              </div>
+            `;
+      
+            modalMemberDiv.appendChild(memberDiv);
+          });
+        })
 
         deleteButton.addEventListener('click', (e) => {
           e.preventDefault();
@@ -292,7 +328,7 @@ export default class extends Controller {
     axios.get(this.element.dataset.apiUrl, { headers: this.HEADERS })
       .then((response) => {
 
-
+        console.log("response: ", response['data'])
         if (document.querySelector('#board')) {
           this.buildKanban(this.buildBoards(response['data']))
           this.decoratedHeaderTitle()
@@ -302,7 +338,7 @@ export default class extends Controller {
           console.log("headers", this.getHeaders())
 
 
-          this.showModal()
+          this.showModal(response['data'])
 
 
           // Add click event listener only to elements with data-modal-toggle attribute

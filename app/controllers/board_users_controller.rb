@@ -4,6 +4,7 @@ class BoardUsersController < ApplicationController
   def index 
     @members = board.members
     @board_user = board.board_users.new
+    binding.pry
   end
   def new
     @board_user = board.board_users.new
@@ -34,7 +35,7 @@ class BoardUsersController < ApplicationController
     params[:board_user][:user_ids].map(&:to_i).reject(&:zero?)
   end
 
-  def board 
+  def board
     @board ||= Board.find(params[:board_id])
   end
 end

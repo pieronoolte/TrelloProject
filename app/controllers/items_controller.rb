@@ -10,7 +10,6 @@ class ItemsController < ApplicationController
     @item = list.items.find(params[:id])
   end
 
-
   def create
     @item = list.items.new(item_params)
 
@@ -41,7 +40,7 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:title, :description)
   end
 
-  def list 
+  def list
     @list ||= List.find(params[:list_id])
   end
 end
